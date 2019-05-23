@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">signInApp</string>
+    <string name="had_sign_in">今日已签到过</string>
+</resources>
