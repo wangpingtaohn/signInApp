@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="14sp"
-        android:textColor="#999"
+        android:textColor="#99f"
         android:text="平均时长" />
 
 
@@ -26,7 +26,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:textColor="#999"
+        android:textColor="#99f"
+        android:layout_marginRight="4dp"
         android:gravity="center"
         tools:text="8.12" />
 </RelativeLayout>

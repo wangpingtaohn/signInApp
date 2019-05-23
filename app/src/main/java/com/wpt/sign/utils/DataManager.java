@@ -76,6 +76,22 @@ public class DataManager {
         return String.valueOf(mSimpleDateFormat.format(sCalendar.getTime()));
     }
 
+
+    public static int stampToYear(long time){
+        sCalendar.setTimeInMillis(time);
+        return sCalendar.get(Calendar.YEAR);
+    }
+
+    public static int stampToMonth(long time){
+        sCalendar.setTimeInMillis(time);
+        return sCalendar.get(Calendar.MONTH) + 1;
+    }
+
+    public static int stampToDay(long time){
+        sCalendar.setTimeInMillis(time);
+        return sCalendar.get(Calendar.DAY_OF_MONTH);
+    }
+
     public static String getDuration(long signInTime,long signUpTime){
         String duration = null;
         if (signInTime > signUpTime){

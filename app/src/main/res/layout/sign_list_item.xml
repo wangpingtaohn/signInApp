@@ -15,7 +15,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center"
         android:textSize="14sp"
         android:textColor="#999"
         tools:text="2019/02/01" />
@@ -23,11 +22,11 @@
     <TextView
         android:id="@+id/item_sign_in"
         android:layout_width="0dp"
+        android:paddingStart="4dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textSize="14sp"
         android:textColor="#999"
-        android:gravity="center"
         tools:text="08:12" />
 
     <TextView
@@ -37,16 +36,14 @@
         android:layout_weight="1"
         android:textSize="14sp"
         android:textColor="#999"
-        android:gravity="center"
         tools:text="08:12" />
 
     <TextView
         android:id="@+id/item_duration"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="1.3"
         android:textSize="14sp"
         android:textColor="#999"
-        android:gravity="center"
         tools:text="8.12" />
 </LinearLayout>

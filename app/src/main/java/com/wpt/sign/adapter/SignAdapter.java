@@ -43,6 +43,10 @@ public class SignAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         mFooterView = footerView;
     }
 
+    public View getFooterView() {
+        return mFooterView;
+    }
+
     @Override
     public int getItemViewType(int position) {
         if (mFooterView != null && position == mDatas.size()){
