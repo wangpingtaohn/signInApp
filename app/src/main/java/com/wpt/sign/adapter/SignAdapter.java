@@ -14,6 +14,7 @@ import com.wpt.sign.R;
 import com.wpt.sign.bean.SignBean;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class SignAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -28,11 +29,11 @@ public class SignAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_FOOTER = 1;
 
-    private long mTotalHour;
+    private static final String HOUR = "hour";
 
-    private long mTotalMinute;
+    private static final String MINUTE = "minute";
 
-    private long mTotalSecond;
+    private static final String SECOND = "second";
 
     public SignAdapter(Context context,List<SignBean> datas){
         mDatas = datas;
@@ -79,11 +80,23 @@ public class SignAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             sViewHolder.signInTv.setText(bean.signInTime);
             sViewHolder.signOutTv.setText(bean.signUpTime);
             sViewHolder.durationTv.setText(bean.duration);
-            handleTotalTime(bean);
         } else if (getItemViewType(position) == TYPE_FOOTER){
+            HashMap<String,Integer> totalMap = new HashMap<>();
+            for (SignBean bean: mDatas){
+                handleTotalTime(bean,totalMap);
+            }
             FooterViewHolder fViewHolder = (FooterViewHolder) holder;
             if (mDatas != null && mDatas.size() > 0){
-                String avg = (mTotalHour / mDatas.size() + "时" + mTotalMinute / mDatas.size() + "分" + mTotalSecond / mDatas.size() + "秒");
+                if (totalMap.get(SECOND) == null || totalMap.get(MINUTE) == null
+                || totalMap.get(HOUR) == null){
+                    return;
+                }
+                float avgSencod = (totalMap.get(SECOND) % 60) / (float)mDatas.size();
+                long tempMinute = totalMap.get(SECOND) / 60;
+                float avgMinute = ((totalMap.get(MINUTE)  + tempMinute)% 60) / (float)mDatas.size();
+                long tempHour = (totalMap.get(MINUTE)  + tempMinute) / 60;
+                float avgHour = (tempHour + totalMap.get(HOUR)) / (float)mDatas.size();
+                String avg = (avgHour + "时" + avgMinute + "分" + avgSencod + "秒");
                 fViewHolder.agvTv.setText(avg);
             }
         }
@@ -117,26 +130,36 @@ public class SignAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    private void handleTotalTime(SignBean bean){
+    private void handleTotalTime(SignBean bean,@NonNull HashMap<String,Integer> totalMap){
         if (!TextUtils.isEmpty(bean.duration)){
+            int hour = 0;
+            int minute = 0;
+            int second = 0;
             int hourIndex = bean.duration.indexOf("时");
             if (hourIndex > -1){
                 String hourStr = bean.duration.substring(0,hourIndex);
                 Log.d("wpt","hourStr=" +hourStr);
-                mTotalHour += Long.parseLong(hourStr);
+                hour = Integer.parseInt(hourStr);
             }
             int minuteIndex = bean.duration.indexOf("分");
             if (hourIndex > -1 && minuteIndex > -1 && minuteIndex > hourIndex){
                 String minuteStr = bean.duration.substring(hourIndex + 1,minuteIndex);
-                mTotalMinute += Long.parseLong(minuteStr);
+                minute = Integer.parseInt(minuteStr);
                 Log.d("wpt","minuteStr=" +minuteStr);
             }
             int secondIndex = bean.duration.indexOf("秒");
             if (secondIndex > -1 && minuteIndex > -1 && secondIndex > minuteIndex){
                 String secondStr = bean.duration.substring(minuteIndex + 1,secondIndex);
-                mTotalSecond += Long.parseLong(secondStr);
+                second = Integer.parseInt(secondStr);
                 Log.d("wpt","secondStr=" +secondStr);
             }
+            Integer preHour = totalMap.get(HOUR);
+            Integer preMinute = totalMap.get(MINUTE);
+            Integer preSeconde = totalMap.get(SECOND);
+            totalMap.put(HOUR,preHour == null ?  hour : preHour + hour);
+            totalMap.put(MINUTE,preMinute == null ?  minute : preMinute + minute);
+            totalMap.put(SECOND,preSeconde == null ?  second : preSeconde + second);
         }
     }
+
 }
