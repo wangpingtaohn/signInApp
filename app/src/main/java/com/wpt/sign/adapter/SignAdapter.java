@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.wpt.sign.R;
 import com.wpt.sign.bean.SignBean;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -96,10 +98,15 @@ public class SignAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 float avgMinute = ((totalMap.get(MINUTE)  + tempMinute)% 60) / (float)mDatas.size();
                 long tempHour = (totalMap.get(MINUTE)  + tempMinute) / 60;
                 float avgHour = (tempHour + totalMap.get(HOUR)) / (float)mDatas.size();
-                String avg = (avgHour + "时" + avgMinute + "分" + avgSencod + "秒");
+                String avg = (getFormat(avgHour) + "时" + getFormat(avgMinute) + "分" + getFormat(avgSencod) + "秒");
                 fViewHolder.agvTv.setText(avg);
             }
         }
+    }
+
+    private float getFormat(float f){
+        BigDecimal bigDecimal = new BigDecimal(f);
+        return bigDecimal.setScale(1, RoundingMode.HALF_DOWN).floatValue();
     }
 
     @Override
