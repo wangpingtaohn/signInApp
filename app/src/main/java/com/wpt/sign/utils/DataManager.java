@@ -18,6 +18,9 @@ public class DataManager {
 
     private static SimpleDateFormat mSimpleDateFormat = (SimpleDateFormat) SimpleDateFormat.getDateTimeInstance();
 
+
+    private static String[] sWeekOfDays = {"日", "一", "二", "三", "四", "五", "六"};
+
     public static SignBean saveData(long time, boolean isSignIn){
         SignBean bean = null;
         String date = stampToDate(time);
@@ -65,6 +68,15 @@ public class DataManager {
         sCalendar.setTimeInMillis(time);
         mSimpleDateFormat.applyPattern("yyyy/MM/dd");
         return String.valueOf(mSimpleDateFormat.format(sCalendar.getTime()));
+    }
+
+    /*
+     * 将时间戳转换为星期
+     */
+    public static String stampToWeek(long time){
+        sCalendar.setTimeInMillis(time);
+        int week = sCalendar.get(Calendar.DAY_OF_WEEK) - 1;
+        return sWeekOfDays[week >= 0 ? week : 0];
     }
 
     /*

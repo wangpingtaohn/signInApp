@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.wpt.sign.R;
 import com.wpt.sign.bean.SignBean;
+import com.wpt.sign.utils.DataManager;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -79,6 +80,7 @@ public class SignAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             SignViewHolder sViewHolder = (SignViewHolder) holder;
             sViewHolder.dateTv.setText(bean.date);
+            sViewHolder.weekTv.setText(DataManager.stampToWeek(bean.signStampTime));
             sViewHolder.signInTv.setText(bean.signInTime);
             sViewHolder.signOutTv.setText(bean.signUpTime);
             sViewHolder.durationTv.setText(bean.duration);
@@ -117,7 +119,7 @@ public class SignAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     class SignViewHolder extends RecyclerView.ViewHolder{
 
-        TextView dateTv,signInTv, signOutTv, durationTv;
+        TextView dateTv,signInTv, signOutTv, durationTv,weekTv;
 
         public SignViewHolder(View itemView) {
             super(itemView);
@@ -125,6 +127,7 @@ public class SignAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             signInTv = itemView.findViewById(R.id.item_sign_in);
             signOutTv = itemView.findViewById(R.id.item_sign_out);
             durationTv = itemView.findViewById(R.id.item_duration);
+            weekTv = itemView.findViewById(R.id.item_week);
         }
     }
 
